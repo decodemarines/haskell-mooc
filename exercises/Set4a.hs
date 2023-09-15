@@ -35,7 +35,9 @@ import Data.Array
 -- you remove the Eq a => constraint from the type!
 
 allEqual :: Eq a => [a] -> Bool
-allEqual xs = todo
+allEqual []       = True
+allEqual (x:[])   = True
+allEqual (x:y:xs) = if x /= y then False else allEqual (y:xs)
 
 ------------------------------------------------------------------------------
 -- Ex 2: implement the function distinct which returns True if all
@@ -63,7 +65,7 @@ distinct = todo
 --   middle 'b' 'a' 'c'  ==> 'b'
 --   middle 1 7 3        ==> 3
 
-middle = todo
+middle a b c = (sort [a, b, c]) !! 1 
 
 ------------------------------------------------------------------------------
 -- Ex 4: return the range of an input list, that is, the difference
@@ -78,7 +80,7 @@ middle = todo
 --   rangeOf [4,2,1,3]          ==> 3
 --   rangeOf [1.5,1.0,1.1,1.2]  ==> 0.5
 
-rangeOf :: [a] -> a
+rangeOf :: (Ord a, Num a) => [a] -> a
 rangeOf = todo
 
 ------------------------------------------------------------------------------
@@ -97,7 +99,12 @@ rangeOf = todo
 --   longest [[1,2,3],[4,5],[6]] ==> [1,2,3]
 --   longest ["bcd","def","ab"] ==> "bcd"
 
-longest = todo
+longest :: (Ord a) => [[a]] -> [a]
+longest (x:[]) = x
+longest (x:y:xs)
+    | length x > length y = longest (x:xs)
+	| length x < length y = longest (y:xs)
+	| otherwise           = if  x < y then longest (x:xs) else longest (y:xs)
 
 ------------------------------------------------------------------------------
 -- Ex 6: Implement the function incrementKey, that takes a list of
