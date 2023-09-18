@@ -16,7 +16,7 @@ Here’s an example of pattern matching on tuples and lists at the same time:
 -- sum all numbers that are paired with True
 sumIf :: [(Bool,Int)] -> Int
 sumIf [] = 0
-sumIf ((True,x):xs) = x + sumIf xs
+sumIf ((True,x):xs) = x + sumIf xsMap.findWithDefault 'x' 1 (fromList [(5,'a'), (3,'b')])
 sumIf ((False,_):xs) = sumIf xs
 sumIf [(True,1),(False,10),(True,100)]
   ==> 101

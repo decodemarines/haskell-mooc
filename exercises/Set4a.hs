@@ -52,7 +52,7 @@ allEqual (x:y:xs) = if x /= y then False else allEqual (y:xs)
 --   distinct [1,2] ==> True
 
 distinct :: Eq a => [a] -> Bool
-distinct = todo
+distinct x = if length (nub x) /= length x then False else True
 
 ------------------------------------------------------------------------------
 -- Ex 3: implement the function middle that returns the middle value
@@ -81,7 +81,7 @@ middle a b c = (sort [a, b, c]) !! 1
 --   rangeOf [1.5,1.0,1.1,1.2]  ==> 0.5
 
 rangeOf :: (Ord a, Num a) => [a] -> a
-rangeOf = todo
+rangeOf x = maximum x - minimum x
 
 ------------------------------------------------------------------------------
 -- Ex 5: given a (non-empty) list of (non-empty) lists, return the longest
@@ -103,8 +103,8 @@ longest :: (Ord a) => [[a]] -> [a]
 longest (x:[]) = x
 longest (x:y:xs)
     | length x > length y = longest (x:xs)
-	| length x < length y = longest (y:xs)
-	| otherwise           = if  x < y then longest (x:xs) else longest (y:xs)
+    | length x < length y = longest (y:xs)
+    | otherwise           = if  x < y then longest (x:xs) else longest (y:xs)
 
 ------------------------------------------------------------------------------
 -- Ex 6: Implement the function incrementKey, that takes a list of
@@ -120,8 +120,11 @@ longest (x:y:xs)
 --   incrementKey True [(True,1),(False,3),(True,4)] ==> [(True,2),(False,3),(True,5)]
 --   incrementKey 'a' [('a',3.4)] ==> [('a',4.4)]
 
-incrementKey :: k -> [(k,v)] -> [(k,v)]
-incrementKey = todo
+incrementKey :: (Ord k, Num v) => k -> [(k,v)] -> [(k,v)]
+incrementKey key []          = []
+incrementKey key ((a, b):xs)
+      | key == a        = (a, b + 1) : incrementKey key xs
+      | otherwise       = (a, b) : incrementKey key xs
 
 ------------------------------------------------------------------------------
 -- Ex 7: compute the average of a list of values of the Fractional
@@ -136,7 +139,7 @@ incrementKey = todo
 -- length to a Fractional
 
 average :: Fractional a => [a] -> a
-average xs = todo
+average xs = sum xs / (fromIntegral . length) xs
 
 ------------------------------------------------------------------------------
 -- Ex 8: given a map from player name to score and two players, return
@@ -155,7 +158,9 @@ average xs = todo
 --     ==> "Lisa"
 
 winner :: Map.Map String Int -> String -> String -> String
-winner scores player1 player2 = todo
+winner scores player1 player2
+    | Map.findWithDefault 0 player1 scores < Map.findWithDefault 0 player2 scores = player2
+    | otherwise = player1
 
 ------------------------------------------------------------------------------
 -- Ex 9: compute how many times each value in the list occurs. Return
