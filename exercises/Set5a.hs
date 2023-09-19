@@ -205,7 +205,11 @@ data Color = Red | Green | Blue | Mix Color Color | Invert Color
   deriving Show
 
 rgb :: Color -> [Double]
-rgb col = todo
+rgb Red        = [1,0,0]
+rgb Green      = [0,1,0]
+rgb Blue       = [0,0,1]
+rgb (Mix v1 v2)  = map (/2) (zipWith (+) (rgb v1) (rgb v2))
+rgb (Invert v) = map (1-) (rgb v)
 
 ------------------------------------------------------------------------------
 -- Ex 9: define a parameterized datatype OneOrTwo that contains one or
@@ -215,7 +219,7 @@ rgb col = todo
 --   One True         ::  OneOrTwo Bool
 --   Two "cat" "dog"  ::  OneOrTwo String
 
-
+data OneOrTwo a = One a | Two a a
 ------------------------------------------------------------------------------
 -- Ex 10: define a recursive datatype KeyVals for storing a set of
 -- key-value pairs. There should be two constructors: Empty and Pair.
